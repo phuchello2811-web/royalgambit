@@ -1,0 +1,125 @@
+{
+  "rules": {
+    "players": {
+      ".read": true,
+      ".indexOn": [
+        "exp",
+        "elo"
+      ],
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['name', 'exp', 'elo', 'placed', 'eloGames', 'games', 'wins', 'draws', 'losses', 'lastGame']) && newData.child('games').val() === newData.child('wins').val() + newData.child('draws').val() + newData.child('losses').val() && (!data.exists() ? (newData.child('games').val() === 0 && newData.child('exp').val() === 0 && newData.child('elo').val() === 800 && newData.child('placed').val() === false && newData.child('eloGames').val() === 0 && newData.child('lastGame').val() === now && newData.child('name').val().toLowerCase() + '@rg-user.app' === auth.token.email) : (newData.child('name').val() === data.child('name').val() && ((newData.child('exp').val() === data.child('exp').val() && newData.child('games').val() === data.child('games').val() && newData.child('wins').val() === data.child('wins').val() && newData.child('draws').val() === data.child('draws').val() && newData.child('losses').val() === data.child('losses').val() && newData.child('lastGame').val() === data.child('lastGame').val() && newData.child('elo').val() === data.child('elo').val() && newData.child('placed').val() === data.child('placed').val() && newData.child('eloGames').val() === data.child('eloGames').val()) || (newData.child('exp').val() === data.child('exp').val() && newData.child('games').val() === data.child('games').val() && newData.child('wins').val() === data.child('wins').val() && newData.child('draws').val() === data.child('draws').val() && newData.child('losses').val() === data.child('losses').val() && newData.child('lastGame').val() === data.child('lastGame').val() && newData.child('eloGames').val() === (data.child('eloGames').exists() ? data.child('eloGames').val() : 0) && (!data.child('placed').exists() || data.child('placed').val() === false) && newData.child('placed').val() === true && newData.child('elo').val() >= 400 && newData.child('elo').val() <= 1500) || (newData.child('games').val() === data.child('games').val() + 1 && newData.child('lastGame').val() === now && now - data.child('lastGame').val() > 10000 && data.child('placed').val() === true && newData.child('placed').val() === true && newData.child('eloGames').val() === data.child('eloGames').val() + 1 && ((newData.child('wins').val() === data.child('wins').val() + 1 && newData.child('draws').val() === data.child('draws').val() && newData.child('losses').val() === data.child('losses').val() && newData.child('exp').val() === data.child('exp').val() + 15 && newData.child('elo').val() >= data.child('elo').val() && newData.child('elo').val() <= data.child('elo').val() + 40) || (newData.child('draws').val() === data.child('draws').val() + 1 && newData.child('wins').val() === data.child('wins').val() && newData.child('losses').val() === data.child('losses').val() && newData.child('exp').val() === data.child('exp').val() + 5 && newData.child('elo').val() >= data.child('elo').val() - 40 && newData.child('elo').val() <= data.child('elo').val() + 40) || (newData.child('losses').val() === data.child('losses').val() + 1 && newData.child('wins').val() === data.child('wins').val() && newData.child('draws').val() === data.child('draws').val() && newData.child('exp').val() === (data.child('exp').val() >= 10 ? data.child('exp').val() - 10 : 0) && ((newData.child('elo').val() < data.child('elo').val() && newData.child('elo').val() >= data.child('elo').val() - 40) || (data.child('elo').val() === 100 && newData.child('elo').val() === 100))))) || (newData.child('games').val() === data.child('games').val() && newData.child('wins').val() === data.child('wins').val() && newData.child('draws').val() === data.child('draws').val() && newData.child('losses').val() === data.child('losses').val() && newData.child('exp').val() === data.child('exp').val() && newData.child('lastGame').val() === now && now - data.child('lastGame').val() > 10000 && data.child('placed').val() === true && newData.child('placed').val() === true && newData.child('eloGames').val() === data.child('eloGames').val() + 1 && newData.child('elo').val() >= data.child('elo').val() - 40 && newData.child('elo').val() <= data.child('elo').val() + 40))))",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length >= 3 && newData.val().length <= 20 && newData.val().matches(/^[A-Za-z0-9_]+$/) && (data.exists() || !newData.val().toLowerCase().beginsWith('admin') || auth.token.email === 'admin@rg-user.app')"
+        },
+        "exp": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+        },
+        "elo": {
+          ".validate": "newData.isNumber() && newData.val() >= 100 && newData.val() <= 3500"
+        },
+        "placed": {
+          ".validate": "newData.isBoolean()"
+        },
+        "eloGames": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+        },
+        "games": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+        },
+        "wins": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+        },
+        "draws": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+        },
+        "losses": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+        },
+        "lastGame": {
+          ".validate": "newData.isNumber()"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "photos": {
+      ".read": true,
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.isString() && newData.val().length <= 40000 && newData.val().beginsWith('data:image/jpeg;base64,')"
+      }
+    },
+    "admins": {
+      ".read": "auth != null && auth.token.email === 'admin@rg-user.app'",
+      ".write": "auth != null && auth.token.email === 'admin@rg-user.app'",
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".validate": "newData.val() === true"
+      }
+    },
+    "contests": {
+      ".read": true,
+      "$cid": {
+        ".write": "auth != null && (auth.token.email === 'admin@rg-user.app' || root.child('admins').child(auth.uid).val() === true)",
+        ".validate": "newData.hasChildren(['name', 'start', 'end', 'by', 'byName']) && (data.exists() || newData.child('start').val() > now)",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length >= 3 && newData.val().length <= 60"
+        },
+        "desc": {
+          ".validate": "newData.isString() && newData.val().length <= 200"
+        },
+        "start": {
+          ".validate": "newData.isNumber()"
+        },
+        "end": {
+          ".validate": "newData.isNumber() && newData.val() > newData.parent().child('start').val() && newData.val() - newData.parent().child('start').val() <= 604800000"
+        },
+        "by": {
+          ".validate": "newData.isString()"
+        },
+        "byName": {
+          ".validate": "newData.isString() && newData.val().length <= 20"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "contestScores": {
+      ".read": true,
+      "$cid": {
+        ".write": "auth != null && (auth.token.email === 'admin@rg-user.app' || root.child('admins').child(auth.uid).val() === true)",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid && (newData.exists() || now < root.child('contests').child($cid).child('start').val())",
+          ".validate": "newData.hasChildren(['name', 'pts', 'games', 'wins', 'draws', 'losses', 'last']) && root.child('contests').child($cid).exists() && newData.child('name').val() === root.child('players').child($uid).child('name').val() && newData.child('games').val() === newData.child('wins').val() + newData.child('draws').val() + newData.child('losses').val() && newData.child('pts').val() === 2 * newData.child('wins').val() + newData.child('draws').val() && newData.child('last').val() === now && (!data.exists() ? (newData.child('games').val() === 0 && now < root.child('contests').child($cid).child('start').val()) : (newData.child('games').val() === data.child('games').val() + 1 && now >= root.child('contests').child($cid).child('start').val() && now <= root.child('contests').child($cid).child('end').val() + 1800000 && newData.child('wins').val() >= data.child('wins').val() && newData.child('draws').val() >= data.child('draws').val() && newData.child('losses').val() >= data.child('losses').val() && (!data.child('last').exists() || now - data.child('last').val() >= 20000)))",
+          "name": {
+            ".validate": "newData.isString()"
+          },
+          "last": {
+            ".validate": "newData.isNumber()"
+          },
+          "pts": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 200000"
+          },
+          "games": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+          },
+          "wins": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+          },
+          "draws": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+          },
+          "losses": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    }
+  }
+}
